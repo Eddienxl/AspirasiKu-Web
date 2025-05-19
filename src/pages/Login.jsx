@@ -1,99 +1,62 @@
-// src/pages/Login.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
+import { saveToken } from '../utils/auth';
 
-const Login = ({ setAuthData }) => {
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [kata_sandi, setKataSandi] = useState('');
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
-
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    fetch('http://localhost:5000/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.message || 'Login gagal');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setError('');
-        // Simpan token atau data auth sesuai backend
-        setAuthData(data);
-        navigate('/');
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    saveToken('dummy-token'); // Simulasi login
+    toast.success('Login successful');
+    navigate('/dashboard');
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: '400px' }}>
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <h1 className="card-title mb-4 text-center">Login</h1>
-          {error && (
-            <div className="alert alert-danger" role="alert">
-              {error}
-            </div>
-          )}
+    <div className="min-h-screen flex flex-col bg-secondary">
+      <Navbar />
+      <main className="flex-grow container mx-auto p-6 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-500">
+          <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Masuk ke AspirasiKu</h1>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Email</label>
               <input
-                type="text"
-                name="username"
-                id="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="form-control"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                 required
-                autoComplete="username"
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Kata Sandi</label>
               <input
                 type="password"
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="form-control"
+                value={kata_sandi}
+                onChange={(e) => setKataSandi(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                 required
-                autoComplete="current-password"
               />
             </div>
-            <button type="submit" className="btn btn-primary w-100">
-              Login
+            <button
+              type="submit"
+              className="w-full bg-primary text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+            >
+              Masuk
             </button>
           </form>
+          <p className="text-center mt-6 text-gray-600">
+            Belum punya akun? <Link to="/register" className="text-accent hover:underline">Daftar</Link>
+          </p>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

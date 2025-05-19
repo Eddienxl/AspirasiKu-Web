@@ -1,31 +1,31 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState, createContext } from 'react'
-import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Profile from './pages/Profile'
-
-// Context untuk auth
-export const AuthContext = createContext()
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home.jsx';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import PostDetail from './pages/PostDetail.jsx';
+import AddPost from './pages/AddPost.jsx';
+import Profile from './pages/Profile.jsx';
+import Notifications from './pages/Notifications.jsx';
+import AdminPanel from './pages/AdminPanel.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function App() {
-  const [user, setUser] = useState(null) // simpan data user setelah login
-
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-          <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
-          <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
-        </Routes>
-      </Router>
-    </AuthContext.Provider>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/post/:id" element={<PostDetail />} />
+        <Route path="/ajukan" element={<ProtectedRoute><AddPost /></ProtectedRoute>} />
+        <Route path="/profil/:username" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/notifikasi" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute requiredRole="pengelola"><AdminPanel /></ProtectedRoute>} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

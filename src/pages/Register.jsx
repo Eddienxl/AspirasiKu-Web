@@ -1,143 +1,84 @@
-// src/pages/Register.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx';
+import { saveToken } from '../utils/auth';
 
 const Register = () => {
+  const [nim, setNim] = useState('');
+  const [nama, setNama] = useState('');
+  const [email, setEmail] = useState('');
+  const [kata_sandi, setKataSandi] = useState('');
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-    nama_lengkap: '',
-    email: '',
-  });
-
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    fetch('http://localhost:5000/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.message || 'Registrasi gagal');
-        }
-        return res.json();
-      })
-      .then(() => {
-        setSuccess('Registrasi berhasil! Silakan login.');
-        setError('');
-        // Optional: redirect to login page after a delay
-        setTimeout(() => navigate('/login'), 2000);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setSuccess('');
-      });
+    saveToken('dummy-token'); // Simulasi register
+    toast.success('Registration successful');
+    navigate('/dashboard');
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: '450px' }}>
-      <div className="card shadow">
-        <div className="card-body">
-          <h1 className="card-title mb-4">Register</h1>
-
-          {error && (
-            <div className="alert alert-danger" role="alert">
-              {error}
-            </div>
-          )}
-          {success && (
-            <div className="alert alert-success" role="alert">
-              {success}
-            </div>
-          )}
-
+    <div className="min-h-screen flex flex-col bg-secondary">
+      <Navbar />
+      <main className="flex-grow container mx-auto p-6 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-500">
+          <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Daftar ke AspirasiKu</h1>
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">NIM</label>
               <input
                 type="text"
-                name="username"
-                id="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="form-control"
+                value={nim}
+                onChange={(e) => setNim(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                 required
               />
             </div>
-
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="form-control"
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="nama_lengkap" className="form-label">
-                Nama Lengkap
-              </label>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Nama</label>
               <input
                 type="text"
-                name="nama_lengkap"
-                id="nama_lengkap"
-                value={formData.nama_lengkap}
-                onChange={handleChange}
-                className="form-control"
+                value={nama}
+                onChange={(e) => setNama(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                 required
               />
             </div>
-
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Email</label>
               <input
                 type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
                 required
               />
             </div>
-
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Kata Sandi</label>
+              <input
+                type="password"
+                value={kata_sandi}
+                onChange={(e) => setKataSandi(e.target.value)}
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                required
+              />
+            </div>
             <button
               type="submit"
-              className="btn btn-success w-100"
+              className="w-full bg-primary text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
             >
-              Register
+              Daftar
             </button>
           </form>
+          <p className="text-center mt-6 text-gray-600">
+            Sudah punya akun? <Link to="/login" className="text-accent hover:underline">Masuk</Link>
+          </p>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

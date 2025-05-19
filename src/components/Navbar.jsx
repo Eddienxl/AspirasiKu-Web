@@ -1,97 +1,62 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getToken, removeToken } from '../utils/auth';
 
-export default function Navbar() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [expanded, setExpanded] = useState(false);
+const Navbar = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = getToken();
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    alert(`Mencari: ${searchTerm}`);
-    // Nanti bisa diganti dengan navigasi ke halaman hasil pencarian
-  };
-
-  const toggleNavbar = () => {
-    setExpanded(!expanded);
+  const handleLogout = () => {
+    removeToken();
+    toast.success('Logged out successfully');
+    navigate('/login');
   };
 
   return (
-    <nav className="navbar navbar-expand-md navbar-dark bg-primary">
-      <div className="container">
-        <Link className="navbar-brand fw-bold" to="/">
-          AspirasiKu
+    <nav className="bg-primary text-white p-4 shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto flex justify-between items-center">
+        <Link to="/" className="flex items-center space-x-3 transition-transform hover:scale-105">
+          <img src="/logo.png" alt="UIN Logo" className="h-10 rounded-full border-2 border-accent" />
+          <span className="text-2xl font-bold tracking-tight">AspirasiKu</span>
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          aria-controls="navbarSupportedContent"
-          aria-expanded={expanded}
-          aria-label="Toggle navigation"
-          onClick={toggleNavbar}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className={`collapse navbar-collapse${expanded ? ' show' : ''}`}
-          id="navbarSupportedContent"
-        >
-          <form
-            className="d-flex mx-auto my-2 my-md-0"
-            onSubmit={handleSearchSubmit}
-            style={{ maxWidth: '400px', width: '100%' }}
-          >
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Cari aspirasi..."
-              aria-label="Search"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-            <button className="btn btn-light" type="submit">
-              Cari
+        <div className="flex space-x-6">
+          {[
+            { to: "/", label: "Home" },
+            { to: "/dashboard", label: "Dashboard" },
+            ...(isLoggedIn
+              ? [
+                  { to: "/ajukan", label: "Ajukan" },
+                  { to: "/profil/me", label: "Profil" },
+                  { to: "/notifikasi", label: "Notifikasi" },
+                  { to: "/admin", label: "Admin" },
+                ]
+              : [
+                  { to: "/login", label: "Login" },
+                  { to: "/register", label: "Register" },
+                ]),
+          ].map((item, idx) => (
+            <Link
+              key={idx}
+              to={item.to}
+              className="text-lg font-medium hover:text-accent transition-colors duration-300 relative group"
+            >
+              {item.label}
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          ))}
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="text-lg font-medium hover:text-accent transition-colors duration-300 relative group"
+            >
+              Logout
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
             </button>
-          </form>
-
-          <ul className="navbar-nav ms-auto mb-2 mb-md-0">
-            <li className="nav-item">
-              <Link
-                to="/"
-                className="nav-link"
-                onClick={() => setExpanded(false)}
-                title="Home"
-              >
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/profile"
-                className="nav-link"
-                onClick={() => setExpanded(false)}
-                title="Profil"
-              >
-                Profil
-              </Link>
-            </li>
-            <li className="nav-item">
-              <button
-                onClick={() => alert('Logout belum diimplementasikan')}
-                className="btn btn-link nav-link"
-                title="Logout"
-                style={{ cursor: 'pointer' }}
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
+          )}
         </div>
       </div>
     </nav>
   );
-}
+};
+
+export default Navbar;

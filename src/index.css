@@ -1,16 +1,10 @@
-/* index.css */
+@import "tailwindcss";
 
-/* Contoh custom tambahan */
-body {
-  background-color: #f8f9fa; /* warna abu-abu terang */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Custom class contoh */
-.custom-btn {
-  border-radius: 50px;
-  padding: 10px 30px;
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
 }
