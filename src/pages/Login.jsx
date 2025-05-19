@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveToken('dummy-token'); // Simulasi login
+    saveToken('dummy-token');
     toast.success('Login successful');
     navigate('/dashboard');
   };

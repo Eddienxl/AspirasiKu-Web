@@ -9,10 +9,13 @@ import Profile from './pages/Profile.jsx';
 import Notifications from './pages/Notifications.jsx';
 import AdminPanel from './pages/AdminPanel.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

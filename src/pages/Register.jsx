@@ -14,7 +14,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveToken('dummy-token'); // Simulasi register
+    saveToken('dummy-token');
     toast.success('Registration successful');
     navigate('/dashboard');
   };

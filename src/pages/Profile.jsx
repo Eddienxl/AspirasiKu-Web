@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import PostCard from '../components/PostCard.jsx';
 import { dummyUsers, dummyPosts } from '../data/dummy';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const Profile = () => {
   const { username } = useParams();
@@ -32,7 +33,9 @@ const Profile = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.map(post => (
-              <PostCard key={post?.id} post={post} />
+              <ErrorBoundary key={post?.id}>
+                <PostCard post={post} />
+              </ErrorBoundary>
             ))}
           </div>
         )}

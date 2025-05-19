@@ -1,4 +1,3 @@
-// src/data/dummy.js
 export const dummyCategories = [
   { id: 1, nama: "Akademik" },
   { id: 2, nama: "Fasilitas" },
