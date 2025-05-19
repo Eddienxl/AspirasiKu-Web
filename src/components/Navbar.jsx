@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-primary text-white p-4 shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-primary to-blue-900 text-accent p-4 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-3 transition-transform hover:scale-105">
           <img src="/logo.png" alt="UIN Logo" className="h-10 rounded-full border-2 border-accent" />
@@ -38,19 +38,19 @@ const Navbar = () => {
             <Link
               key={idx}
               to={item.to}
-              className="text-lg font-medium hover:text-accent transition-colors duration-300 relative group"
+              className="text-lg font-medium hover:text-white transition-colors duration-300 relative group"
             >
               {item.label}
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
             </Link>
           ))}
           {isLoggedIn && (
             <button
               onClick={handleLogout}
-              className="text-lg font-medium hover:text-accent transition-colors duration-300 relative group"
+              className="text-lg font-medium hover:text-white transition-colors duration-300 relative group"
             >
               Logout
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
             </button>
           )}
         </div>
