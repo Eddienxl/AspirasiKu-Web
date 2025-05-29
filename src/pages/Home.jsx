@@ -17,8 +17,7 @@ const Home = () => {
         setPosts(data.slice(0, 6)); // Get only first 6 posts for homepage
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load posts');
+        setError('Gagal memuat postingan');
         setLoading(false);
       }
     };
@@ -48,7 +47,8 @@ const Home = () => {
               </Link>
             </div>
           </section>
-        <section className="container mx-auto py-12 px-4 lg:px-8">
+
+          <section className="container mx-auto py-12 px-4 lg:px-8">
           <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Postingan Terbaru</h2>
           {loading ? (
             <div className="text-center py-8">
@@ -68,7 +68,7 @@ const Home = () => {
               ))}
             </div>
           )}
-        </section>
+          </section>
         </main>
       </div>
     </div>
