@@ -14,9 +14,9 @@ const Home = () => {
       <Navbar />
       <main className="flex-grow">
         <section className="relative bg-primary text-white py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-800 opacity-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-primary to-blue-700 opacity-90"></div>
           <div className="container mx-auto text-center relative z-10">
-            <h1 className="text-5xl font-bold mb-4 animate-fadeIn">Selamat Datang di AspirasiKu</h1>
+            <h1 className="text-5xl font-bold mb-4 animate-fadeIn">Selamat Datang di Web AspirasiKu</h1>
             <p className="text-lg mb-8 opacity-90">Sampaikan aspirasi dan pertanyaan Anda untuk UIN Suska Riau</p>
             <Link
               to="/dashboard"
