@@ -1,3 +1,8 @@
 export const saveToken = (token) => localStorage.setItem('token', token);
 export const getToken = () => localStorage.getItem('token');
-export const removeToken = () => localStorage.removeItem('token');
+export const removeToken = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+};
+
+export const isAuthenticated = () => !!getToken();

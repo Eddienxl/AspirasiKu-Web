@@ -1,7 +1,6 @@
-// src/services/api.js
 import { getToken, removeToken } from '../utils/auth';
 
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const apiFetch = async (url, options = {}) => {
   const token = getToken();
@@ -21,7 +20,19 @@ const apiFetch = async (url, options = {}) => {
       removeToken();
       window.location.href = '/login';
     }
-    throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Parse error message from response
+    let errorMessage = `HTTP error! status: ${response.status}`;
+    try {
+      const errorData = await response.json();
+      if (errorData.message) {
+        errorMessage = errorData.message;
+      }
+    } catch (e) {
+      // If can't parse JSON, use default message
+    }
+
+    throw new Error(errorMessage);
   }
 
   return response.json();
@@ -33,10 +44,10 @@ export const login = async (email, kata_sandi) =>
     body: JSON.stringify({ email, kata_sandi }),
   });
 
-export const register = async (nim, nama, email, kata_sandi) =>
+export const register = async (nim, nama, email, kata_sandi, peran = 'pengguna', kodeRahasia = '') =>
   apiFetch('/api/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ nim, nama, email, kata_sandi }),
+    body: JSON.stringify({ nim, nama, email, kata_sandi, peran, kodeRahasia }),
   });
 
 export const getAllPosts = async (filter = 'semua', sort = 'terbaru') =>
@@ -44,11 +55,13 @@ export const getAllPosts = async (filter = 'semua', sort = 'terbaru') =>
 
 export const getPostById = async (id) => apiFetch(`/api/postingan/${id}`);
 
-export const createPost = async (post) =>
-  apiFetch('/api/postingan', {
+export const createPost = async (post) => {
+  // Backend now properly handles id_kategori, so no need for workarounds
+  return apiFetch('/api/postingan', {
     method: 'POST',
     body: JSON.stringify(post),
   });
+};
 
 export const getCategories = async () => apiFetch('/api/kategori');
 
@@ -58,34 +71,133 @@ export const createComment = async (comment) =>
     body: JSON.stringify(comment),
   });
 
-export const getCommentsByPost = async (postId) =>
-  apiFetch(`/api/komentar?postId=${postId}`);
+// Comments - Backend expects different endpoint structure
+export const getCommentsByPost = async (postId) => {
+  // Backend doesn't have this specific endpoint, get all comments and filter
+  const allComments = await apiFetch('/api/komentar');
+  return allComments.filter(comment => comment.id_postingan === parseInt(postId));
+};
 
-export const createInteraction = async (interaction) =>
-  apiFetch('/api/interaksi', {
+// Interactions - Backend has specific endpoints for postingan and komentar
+export const createPostInteraction = async (interaction) =>
+  apiFetch('/api/interaksi/postingan', {
     method: 'POST',
     body: JSON.stringify(interaction),
   });
 
-export const getUserProfile = async (username) =>
-  apiFetch(`/api/pengguna/${username}`);
+export const createCommentInteraction = async (interaction) =>
+  apiFetch('/api/interaksi/komentar', {
+    method: 'POST',
+    body: JSON.stringify(interaction),
+  });
 
-export const getUserPosts = async (username) =>
-  apiFetch(`/api/postingan?penulis=${username}`);
+// User Profile - Backend expects user ID, not username
+export const getUserProfile = async (userId) =>
+  apiFetch(`/api/pengguna/${userId}`);
+
+// User Posts - Use backend's specific endpoint
+export const getUserPosts = async (userId) =>
+  apiFetch(`/api/pengguna/${userId}/postingan`);
+
+export const getCurrentUserPosts = async () => {
+  const token = getToken();
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  try {
+    // Decode JWT token to get user ID
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.id;
+
+    if (!userId) {
+      throw new Error('Invalid token: no user ID found');
+    }
+
+    // Use backend's specific endpoint for user posts
+    return await apiFetch(`/api/pengguna/${userId}/postingan`);
+  } catch (error) {
+    console.error('Error getting current user posts:', error);
+    throw new Error('Failed to get current user posts');
+  }
+};
 
 export const getNotifications = async () => apiFetch('/api/notifikasi');
 
-export const getAllReports = async () => apiFetch('/api/interaksi?tipe=lapor');
+// Reports - Get all interactions and filter for reports
+export const getAllReports = async () => {
+  const allInteractions = await apiFetch('/api/interaksi');
+  return allInteractions.filter(interaction => interaction.tipe === 'lapor');
+};
 
+// Post management
 export const updatePostStatus = async (id, status) =>
   apiFetch(`/api/postingan/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ status }),
   });
 
+export const deletePost = async (id) =>
+  apiFetch(`/api/postingan/${id}`, {
+    method: 'DELETE',
+  });
+
+export const updatePost = async (id, postData) =>
+  apiFetch(`/api/postingan/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(postData),
+  });
+
+// Comment management
 export const deleteComment = async (id) =>
   apiFetch(`/api/komentar/${id}`, {
     method: 'DELETE',
   });
 
-export const getCurrentUser = async () => apiFetch('/api/pengguna/me');
+export const updateComment = async (id, commentData) =>
+  apiFetch(`/api/komentar/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(commentData),
+  });
+
+export const getCurrentUser = async () => {
+  const token = getToken();
+  if (!token) {
+    throw new Error('No token found');
+  }
+
+  try {
+    // Use backend's profile endpoint
+    return await apiFetch('/api/auth/profile');
+  } catch (error) {
+    console.error('Error getting current user:', error);
+    throw new Error('Failed to get current user');
+  }
+};
+
+// Additional API functions to match backend capabilities
+export const changePassword = async (oldPassword, newPassword) =>
+  apiFetch('/api/auth/ubah-kata-sandi', {
+    method: 'PUT',
+    body: JSON.stringify({
+      kata_sandi_lama: oldPassword,
+      kata_sandi_baru: newPassword
+    }),
+  });
+
+export const updateProfile = async (profileData) =>
+  apiFetch('/api/auth/ubah-profil', {
+    method: 'PUT',
+    body: JSON.stringify(profileData),
+  });
+
+// Notification management
+export const markNotificationAsRead = async (id) =>
+  apiFetch(`/api/notifikasi/${id}/read`, {
+    method: 'PUT',
+  });
+
+export const markAllNotificationsAsRead = async () =>
+  apiFetch('/api/notifikasi/read-all', {
+    method: 'PUT',
+  });

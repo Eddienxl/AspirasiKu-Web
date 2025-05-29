@@ -1,30 +1,53 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Navbar from '../components/Navbar.jsx';
-import Footer from '../components/Footer.jsx';
-import { saveToken } from '../utils/auth';
+import { register } from '../services/api';
 
 const Register = () => {
   const [nim, setNim] = useState('');
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [kata_sandi, setKataSandi] = useState('');
+  const [peran, setPeran] = useState('pengguna');
+  const [kodeRahasia, setKodeRahasia] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    saveToken('dummy-token');
-    toast.success('Registration successful');
-    navigate('/dashboard');
+    setLoading(true);
+
+    try {
+      const response = await register(nim, nama, email, kata_sandi, peran, kodeRahasia);
+
+      // Redirect ke login setelah registrasi berhasil
+      if (response.token && response.user) {
+        toast.success('Registrasi berhasil! Silakan login dengan akun Anda.');
+        navigate('/login');
+      } else if (response.message === 'Registrasi berhasil') {
+        toast.success('Registrasi berhasil! Silakan login dengan akun Anda.');
+        navigate('/login');
+      } else {
+        throw new Error('Registrasi gagal');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      toast.error(`Registrasi gagal: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-secondary">
-      <Navbar />
-      <main className="flex-grow container mx-auto p-6 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl transform transition-all duration-500">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Daftar ke AspirasiKu</h1>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center p-4">
+      <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-green-200 transform transition-all duration-500 animate-fade-in">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-white text-2xl font-bold">A</span>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Daftar ke AspirasiKu</h1>
+          <p className="text-gray-600">Buat akun baru untuk bergabung</p>
+        </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label className="block text-gray-700 mb-2 font-medium">NIM</label>
@@ -32,17 +55,19 @@ const Register = () => {
                 type="text"
                 value={nim}
                 onChange={(e) => setNim(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+                placeholder="Masukkan NIM Anda"
                 required
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Nama</label>
+              <label className="block text-gray-700 mb-2 font-medium">Nama Lengkap</label>
               <input
                 type="text"
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+                placeholder="Masukkan nama lengkap Anda"
                 required
               />
             </div>
@@ -52,7 +77,8 @@ const Register = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+                placeholder="Masukkan email Anda"
                 required
               />
             </div>
@@ -62,23 +88,50 @@ const Register = () => {
                 type="password"
                 value={kata_sandi}
                 onChange={(e) => setKataSandi(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+                placeholder="Masukkan kata sandi Anda"
                 required
               />
             </div>
+
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2 font-medium">Role</label>
+              <select
+                value={peran}
+                onChange={(e) => setPeran(e.target.value)}
+                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+              >
+                <option value="pengguna">👤 Pengguna</option>
+                <option value="peninjau">👨‍💼 Peninjau</option>
+              </select>
+            </div>
+
+            {peran === 'peninjau' && (
+              <div className="mb-6">
+                <label className="block text-gray-700 mb-2 font-medium">Kode Rahasia Peninjau</label>
+                <input
+                  type="password"
+                  value={kodeRahasia}
+                  onChange={(e) => setKodeRahasia(e.target.value)}
+                  className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
+                  placeholder="Masukkan kode rahasia peninjau"
+                  required
+                />
+                <p className="text-sm text-gray-600 mt-2">💡 Hint: kode rahasia adalah "peninjau"</p>
+              </div>
+            )}
             <button
               type="submit"
-              className="w-full bg-primary text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
             >
-              Daftar
+              {loading ? 'Mendaftar...' : 'Daftar'}
             </button>
           </form>
           <p className="text-center mt-6 text-gray-600">
-            Sudah punya akun? <Link to="/login" className="text-accent hover:underline">Masuk</Link>
+            Sudah punya akun? <Link to="/login" className="text-green-600 hover:text-green-700 font-medium hover:underline">Masuk</Link>
           </p>
         </div>
-      </main>
-      <Footer />
     </div>
   );
 };

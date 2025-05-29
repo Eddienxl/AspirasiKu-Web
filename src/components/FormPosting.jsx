@@ -16,20 +16,19 @@ export default function FormPosting({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <div className="mb-3">
+    <form onSubmit={handleSubmit} className="mb-6">
+      <div className="mb-4">
         <textarea
-          className={`form-control ${error ? 'is-invalid' : ''}`}
+          className={`w-full p-4 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none transition-all duration-300 ${error ? 'border-red-500' : 'border-gray-300'}`}
           rows="4"
           placeholder="Tulis aspirasi kamu di sini..."
           value={isiAspirasi}
           onChange={(e) => setIsiAspirasi(e.target.value)}
-          style={{ resize: 'none' }}
         />
-        {error && <div className="invalid-feedback">{error}</div>}
+        {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
       </div>
-      <button type="submit" className="btn btn-primary w-100">
-        Posting Aspirasi
+      <button type="submit" className="w-full bg-gradient-to-r from-primary-500 to-emerald-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-primary-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105">
+        🚀 Posting Aspirasi
       </button>
     </form>
   );
