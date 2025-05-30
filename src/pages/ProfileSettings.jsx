@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { FaUser, FaLock, FaEdit, FaTimes, FaCheck } from 'react-icons/fa';
+import { FaUser, FaLock, FaEdit, FaTimes, FaCheck, FaCamera } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar';
+import PasswordInput from '../components/PasswordInput';
+import ProfilePictureUpload from '../components/ProfilePictureUpload';
+import Avatar from '../components/Avatar';
 import { getCurrentUser, updateProfile, changePassword } from '../services/api';
 
 const ProfileSettings = () => {
@@ -153,6 +156,17 @@ const ProfileSettings = () => {
                     Informasi Profil
                   </button>
                   <button
+                    onClick={() => setActiveTab('photo')}
+                    className={`flex items-center px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
+                      activeTab === 'photo'
+                        ? 'bg-gradient-to-r from-primary-500 to-emerald-500 text-white shadow-lg'
+                        : 'text-gray-600 hover:bg-primary-50 hover:text-primary-700'
+                    }`}
+                  >
+                    <FaCamera className="mr-2" />
+                    Foto Profil
+                  </button>
+                  <button
                     onClick={() => setActiveTab('username')}
                     className={`flex items-center px-4 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
                       activeTab === 'username'
@@ -182,11 +196,7 @@ const ProfileSettings = () => {
                 {activeTab === 'profile' && (
                   <div className="animate-fade-in">
                     <div className="flex items-center mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
-                        <span className="text-white text-2xl font-bold">
-                          {user?.nama?.[0] || 'U'}
-                        </span>
-                      </div>
+                      <Avatar user={user} size="xl" className="mr-4 shadow-lg" />
                       <div>
                         <h2 className="text-2xl font-bold text-gray-800">{user?.nama || 'User'}</h2>
                         <p className="text-gray-600">Informasi Profil Anda</p>
@@ -196,7 +206,7 @@ const ProfileSettings = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-gradient-to-r from-primary-50 to-emerald-50 p-6 rounded-xl border border-primary-200">
                         <label className="block text-sm font-medium text-primary-700 mb-2">
-                          Nama Lengkap
+                          Username
                         </label>
                         <p className="text-gray-900 font-semibold text-lg">{user?.nama || 'Tidak tersedia'}</p>
                       </div>
@@ -226,6 +236,22 @@ const ProfileSettings = () => {
                           }) : 'Tidak tersedia'}
                         </p>
                       </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Photo Tab */}
+                {activeTab === 'photo' && (
+                  <div className="animate-fade-in">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Foto Profil</h2>
+                    <div className="max-w-md mx-auto">
+                      <ProfilePictureUpload
+                        currentUser={user}
+                        onUploadSuccess={(updatedUser) => {
+                          setUser(updatedUser);
+                          localStorage.setItem('user', JSON.stringify(updatedUser));
+                        }}
+                      />
                     </div>
                   </div>
                 )}
@@ -270,49 +296,31 @@ const ProfileSettings = () => {
                 {activeTab === 'password' && (
                   <div className="animate-fade-in">
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">Ubah Password</h2>
-                    <form onSubmit={onSubmitPassword} className="max-w-md space-y-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Password Saat Ini
-                        </label>
-                        <input
-                          type="password"
-                          name="currentPassword"
-                          value={formData.currentPassword}
-                          onChange={handleInputChange}
-                          className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
-                          placeholder="Masukkan password saat ini"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Password Baru
-                        </label>
-                        <input
-                          type="password"
-                          name="newPassword"
-                          value={formData.newPassword}
-                          onChange={handleInputChange}
-                          className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
-                          placeholder="Masukkan password baru"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Konfirmasi Password Baru
-                        </label>
-                        <input
-                          type="password"
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
-                          onChange={handleInputChange}
-                          className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
-                          placeholder="Konfirmasi password baru"
-                          required
-                        />
-                      </div>
+                    <form onSubmit={onSubmitPassword} className="max-w-md space-y-2">
+                      <PasswordInput
+                        value={formData.currentPassword}
+                        onChange={(e) => handleInputChange({ target: { name: 'currentPassword', value: e.target.value } })}
+                        placeholder="Masukkan password saat ini"
+                        label="Password Saat Ini"
+                        className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
+                        required
+                      />
+                      <PasswordInput
+                        value={formData.newPassword}
+                        onChange={(e) => handleInputChange({ target: { name: 'newPassword', value: e.target.value } })}
+                        placeholder="Masukkan password baru"
+                        label="Password Baru"
+                        className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
+                        required
+                      />
+                      <PasswordInput
+                        value={formData.confirmPassword}
+                        onChange={(e) => handleInputChange({ target: { name: 'confirmPassword', value: e.target.value } })}
+                        placeholder="Konfirmasi password baru"
+                        label="Konfirmasi Password Baru"
+                        className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
+                        required
+                      />
                       <button
                         type="submit"
                         className="w-full bg-gradient-to-r from-primary-500 to-emerald-500 text-white px-6 py-4 rounded-xl font-medium hover:from-primary-600 hover:to-emerald-600 transition-all duration-200 transform hover:scale-105 shadow-lg"

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { saveToken } from '../utils/auth';
 import { login } from '../services/api';
+import PasswordInput from '../components/PasswordInput';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -44,27 +45,22 @@ const Login = () => {
         </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Email</label>
+              <label className="block text-gray-700 mb-2 font-medium">Email atau Username</label>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
-                placeholder="Masukkan email Anda"
+                placeholder="Masukkan email atau username Anda"
                 required
               />
             </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Kata Sandi</label>
-              <input
-                type="password"
-                value={kata_sandi}
-                onChange={(e) => setKataSandi(e.target.value)}
-                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
-                placeholder="Masukkan kata sandi Anda"
-                required
-              />
-            </div>
+            <PasswordInput
+              value={kata_sandi}
+              onChange={(e) => setKataSandi(e.target.value)}
+              placeholder="Masukkan kata sandi Anda"
+              required
+            />
             <button
               type="submit"
               disabled={loading}

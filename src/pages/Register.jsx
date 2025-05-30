@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { register } from '../services/api';
+import PasswordInput from '../components/PasswordInput';
 
 const Register = () => {
   const [nim, setNim] = useState('');
@@ -61,13 +62,13 @@ const Register = () => {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Nama Lengkap</label>
+              <label className="block text-gray-700 mb-2 font-medium">Username</label>
               <input
                 type="text"
                 value={nama}
                 onChange={(e) => setNama(e.target.value)}
                 className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
-                placeholder="Masukkan nama lengkap Anda"
+                placeholder="Masukkan username Anda"
                 required
               />
             </div>
@@ -82,17 +83,12 @@ const Register = () => {
                 required
               />
             </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Kata Sandi</label>
-              <input
-                type="password"
-                value={kata_sandi}
-                onChange={(e) => setKataSandi(e.target.value)}
-                className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
-                placeholder="Masukkan kata sandi Anda"
-                required
-              />
-            </div>
+            <PasswordInput
+              value={kata_sandi}
+              onChange={(e) => setKataSandi(e.target.value)}
+              placeholder="Masukkan kata sandi Anda"
+              required
+            />
 
             <div className="mb-6">
               <label className="block text-gray-700 mb-2 font-medium">Role</label>
@@ -108,16 +104,14 @@ const Register = () => {
 
             {peran === 'peninjau' && (
               <div className="mb-6">
-                <label className="block text-gray-700 mb-2 font-medium">Kode Rahasia Peninjau</label>
-                <input
-                  type="password"
+                <PasswordInput
                   value={kodeRahasia}
                   onChange={(e) => setKodeRahasia(e.target.value)}
-                  className="w-full p-4 border border-green-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-green-50"
                   placeholder="Masukkan kode rahasia peninjau"
+                  label="Kode Rahasia Peninjau"
                   required
                 />
-                <p className="text-sm text-gray-600 mt-2">💡 Hint: kode rahasia adalah "peninjau"</p>
+                <p className="text-sm text-gray-600 mt-2 -mt-4">🔐 Kode rahasia diperlukan untuk membuat akun peninjau</p>
               </div>
             )}
             <button

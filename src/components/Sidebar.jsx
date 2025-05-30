@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome, FaTachometerAlt, FaPlus, FaBell, FaUser, FaBars, FaTimes, FaSignOutAlt } from 'react-icons/fa';
+import Avatar from './Avatar';
 
 const Sidebar = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen, isMobile: propIsMobile }) => {
   const location = useLocation();
@@ -8,6 +9,13 @@ const Sidebar = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen, isMobile: propI
   // Use internal state if props not provided (for backward compatibility)
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [internalIsMobile, setInternalIsMobile] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // Load user data
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    setUser(userData);
+  }, []);
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : internalIsOpen;
   const setIsOpen = propSetIsOpen || setInternalIsOpen;
@@ -90,6 +98,19 @@ const Sidebar = ({ isOpen: propIsOpen, setIsOpen: propSetIsOpen, isMobile: propI
             );
           })}
         </nav>
+
+        {/* User Profile Section */}
+        {user && (
+          <div className="absolute bottom-20 left-0 right-0 p-4">
+            <div className="flex items-center space-x-3 p-3 bg-white rounded-xl shadow-sm border border-primary-200">
+              <Avatar user={user} size="md" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-800 truncate">{user.nama}</p>
+                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Logout Section */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-r from-primary-50 to-emerald-50 border-t border-primary-200">

@@ -1,17 +1,37 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar.jsx';
+import ReportModal from '../components/ReportModal.jsx';
 import { toast } from 'react-toastify';
 import { getPostById, createComment, getCommentsByPost, createPostInteraction } from '../services/api';
 import { FaThumbsUp, FaFlag, FaThumbsDown, FaUser } from 'react-icons/fa';
 
+// Helper function to get category emoji
+const getCategoryEmoji = (categoryName) => {
+  const emojiMap = {
+    'Fasilitas Kampus': '🏫',
+    'Akademik': '📚',
+    'Kesejahteraan Mahasiswa': '💝',
+    'Kegiatan Kemahasiswaan': '🎭',
+    'Sarana dan Prasarana Digital': '💻',
+    'Keamanan dan Ketertiban': '🛡️',
+    'Lingkungan dan Kebersihan': '🌱',
+    'Transportasi dan Akses': '🚌',
+    'Kebijakan dan Administrasi': '📋',
+    'Saran dan Inovasi': '💡'
+  };
+  return emojiMap[categoryName] || '📝';
+};
+
 const PostDetail = () => {
   const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +54,20 @@ const PostDetail = () => {
     fetchData();
   }, [id]);
 
+  // Check for auto-open report modal from URL parameter
+  useEffect(() => {
+    const action = searchParams.get('action');
+    if (action === 'report') {
+      setShowReportModal(true);
+      // Remove the action parameter from URL after opening modal
+      setSearchParams(prev => {
+        const newParams = new URLSearchParams(prev);
+        newParams.delete('action');
+        return newParams;
+      });
+    }
+  }, [searchParams, setSearchParams]);
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
@@ -54,12 +88,19 @@ const PostDetail = () => {
     }
   };
 
-  const handleInteraction = async (tipe) => {
+  const handleInteraction = async (tipe, alasan_laporan = null) => {
     try {
-      const response = await createPostInteraction({
+      const payload = {
         id_postingan: parseInt(id),
         tipe: tipe
-      });
+      };
+
+      // Tambahkan alasan laporan jika ada
+      if (tipe === 'lapor' && alasan_laporan) {
+        payload.alasan_laporan = alasan_laporan;
+      }
+
+      const response = await createPostInteraction(payload);
 
       // Handle toggle response
       if (response.action === 'removed') {
@@ -84,6 +125,15 @@ const PostDetail = () => {
     } catch (err) {
       toast.error(`Gagal: ${err.message}`);
     }
+  };
+
+  const handleReportClick = () => {
+    setShowReportModal(true);
+  };
+
+  const handleReportSubmit = async (alasan_laporan) => {
+    await handleInteraction('lapor', alasan_laporan);
+    setShowReportModal(false);
   };
 
   if (loading) {
@@ -131,8 +181,17 @@ const PostDetail = () => {
               {/* Header */}
               <div className="mb-6">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 leading-tight">{post.judul}</h1>
+
+                {/* Category Badge */}
+                {post?.kategori && (
+                  <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-primary-100 to-emerald-100 text-primary-700 rounded-full text-sm font-medium border border-primary-200 shadow-sm mb-4">
+                    <span className="mr-2">{getCategoryEmoji(post.kategori.nama)}</span>
+                    <span>{post.kategori.nama}</span>
+                  </div>
+                )}
+
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-white">
                     <span className="text-white text-sm font-bold">
                       {post.anonim ? 'A' : (post.penulis?.nama?.[0] || 'U')}
                     </span>
@@ -176,7 +235,7 @@ const PostDetail = () => {
                   <span className="font-medium">{post.downvote_count || 0}</span>
                 </button>
                 <button
-                  onClick={() => handleInteraction('lapor')}
+                  onClick={handleReportClick}
                   className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-orange-50 text-orange-500 hover:bg-orange-100 hover:text-orange-600 transition-all duration-200"
                 >
                   <FaFlag />
@@ -221,15 +280,15 @@ const PostDetail = () => {
                   {comments.map(comment => (
                     <div key={comment.id} className="bg-gradient-to-r from-primary-50 to-accent-50 p-4 rounded-xl border border-primary-200">
                       <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                        <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ring-2 ring-white">
                           <span className="text-white text-xs font-bold">
-                            {comment.anonim ? 'A' : (comment.id_penulis?.toString()?.[0] || 'U')}
+                            {comment.anonim ? 'A' : (comment.penulis?.nama?.[0] || comment.id_penulis?.toString()?.[0] || 'U')}
                           </span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-2">
                             <p className="font-medium text-gray-800">
-                              {comment.anonim ? 'Anonim' : comment.id_penulis}
+                              {comment.anonim ? 'Anonim' : (comment.penulis?.nama || `User ${comment.id_penulis}`)}
                             </p>
                             <p className="text-xs text-gray-500">
                               {new Date(comment.dibuat_pada).toLocaleString('id-ID', {
@@ -252,6 +311,14 @@ const PostDetail = () => {
           </div>
         </main>
       </div>
+
+      {/* Report Modal */}
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        onSubmit={handleReportSubmit}
+        type="post"
+      />
     </div>
   );
 };

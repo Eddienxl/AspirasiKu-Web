@@ -201,3 +201,10 @@ export const markAllNotificationsAsRead = async () =>
   apiFetch('/api/notifikasi/read-all', {
     method: 'PUT',
   });
+
+// Profile picture upload
+export const uploadProfilePicture = async (profilePictureBase64) =>
+  apiFetch('/api/auth/upload-profile-picture', {
+    method: 'PUT',
+    body: JSON.stringify({ profile_picture: profilePictureBase64 }),
+  });

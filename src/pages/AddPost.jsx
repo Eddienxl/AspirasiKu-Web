@@ -10,18 +10,18 @@ const AddPost = () => {
   const [id_kategori, setIdKategori] = useState('');
   const [tipe, setTipe] = useState('aspirasi');
   const [anonim, setAnonim] = useState(false);
-  // Kategori yang sudah ditentukan
+  // Kategori yang sudah ditentukan dengan emoticon (10 kategori standar)
   const categories = [
-    { id: 1, nama: 'Fasilitas Kampus' },
-    { id: 2, nama: 'Akademik' },
-    { id: 3, nama: 'Kesejahteraan Mahasiswa' },
-    { id: 4, nama: 'Kegiatan Kemahasiswaan' },
-    { id: 5, nama: 'Sarana dan Prasarana Digital' },
-    { id: 6, nama: 'Keamanan dan Ketertiban' },
-    { id: 7, nama: 'Lingkungan dan Kebersihan' },
-    { id: 8, nama: 'Transportasi dan Akses' },
-    { id: 9, nama: 'Kebijakan dan Administrasi' },
-    { id: 10, nama: 'Saran dan Inovasi' }
+    { id: 1, nama: '🏫 Fasilitas Kampus' },
+    { id: 2, nama: '📚 Akademik' },
+    { id: 3, nama: '💝 Kesejahteraan Mahasiswa' },
+    { id: 4, nama: '🎭 Kegiatan Kemahasiswaan' },
+    { id: 5, nama: '💻 Sarana dan Prasarana Digital' },
+    { id: 6, nama: '🛡️ Keamanan dan Ketertiban' },
+    { id: 7, nama: '🌱 Lingkungan dan Kebersihan' },
+    { id: 8, nama: '🚌 Transportasi dan Akses' },
+    { id: 9, nama: '📋 Kebijakan dan Administrasi' },
+    { id: 10, nama: '💡 Saran dan Inovasi' }
   ];
 
   const [loading, setLoading] = useState(false);
