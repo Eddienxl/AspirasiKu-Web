@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sort, setSort] = useState('terbaru');
+  const [sort, setSort] = useState('populer');
   const [selectedCategory, setSelectedCategory] = useState('semua');
 
   const categories = [
@@ -100,7 +100,7 @@ const Dashboard = () => {
                   {categories.find(cat => cat.value === selectedCategory)?.icon} {categories.find(cat => cat.value === selectedCategory)?.label.replace(/^[^\s]+ /, '')}
                 </span>
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-700 border border-emerald-200">
-                  {sort === 'terbaru' ? '🕒 Terbaru' : '🔥 Populer'}
+                  {sort === 'terbaru' ? '🕒 Terbaru' : sort === 'populer' ? '🔥 Populer' : '🕒 Terlama'}
                 </span>
               </div>
             </div>

@@ -110,7 +110,7 @@ const AdminPanel = () => {
               onClick={() => setActiveTab(tab.key)}
               className={`px-4 sm:px-6 py-3 rounded-lg font-semibold transition-all duration-300 text-sm sm:text-base ${
                 activeTab === tab.key
-                  ? 'bg-blue-600 text-white shadow-lg'
+                  ? 'bg-green-600 text-white shadow-lg'
                   : 'bg-white text-gray-800 hover:bg-gray-100 border border-gray-200'
               }`}
             >

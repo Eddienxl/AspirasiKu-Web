@@ -65,7 +65,7 @@ const PostsTab = ({
       ) : (
         <div className="grid gap-6">
           {posts.map(post => (
-            <div key={post.id} className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+            <div key={post.id} className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
               {/* Post Header */}
               <div className="flex items-start space-x-4 mb-4">
                 {/* User Avatar */}
@@ -91,7 +91,7 @@ const PostsTab = ({
                     </p>
                     {/* Peninjau Badge */}
                     {!post.anonim && post.penulis?.peran === 'peninjau' && (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 shadow-sm">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-200 shadow-sm">
                         <span className="mr-1">🛡️</span>
                         <span>Peninjau</span>
                       </span>

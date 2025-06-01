@@ -104,7 +104,7 @@ const CategoriesTab = ({
                 {editingCategory !== category.id && (
                   <button
                     onClick={() => handleEditCategory(category)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto font-medium"
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 text-sm sm:text-base w-full sm:w-auto font-medium"
                   >
                     Edit
                   </button>
