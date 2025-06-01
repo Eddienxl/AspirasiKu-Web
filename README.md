@@ -93,11 +93,17 @@ PostgreSQL 15.x           - Primary Database
 
 ---
 
-## 🌐 **Deployment**
+## 🌐 **Deployment & Access**
 
-### **Production Deployment**
-- **Frontend**: [Netlify](https://aspirasiku.netlify.app) (Auto-deploy from GitHub)
-- **Backend**: [Railway](https://backend-platform.up.railway.app) (Auto-deploy from GitHub)
+### **🚀 Production Deployment**
+- **Frontend**: [https://aspirasiku.netlify.app](https://aspirasiku.netlify.app) (Auto-deploy from GitHub)
+- **Backend API**: [https://backend-platform.up.railway.app/api](https://backend-platform.up.railway.app/api) (Auto-deploy from GitHub)
+- **Admin Panel**: [https://aspirasiku.netlify.app/admin](https://aspirasiku.netlify.app/admin) (Peninjau only)
+
+### **💻 Local Development**
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000/api
+- **Admin Panel**: http://localhost:5173/admin (Peninjau only)
 
 ### **Environment Variables for Netlify**
 ```bash
