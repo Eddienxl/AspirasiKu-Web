@@ -13,7 +13,7 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const data = await getAllPosts();
+      const data = await getAllPosts('semua', 'populer'); // Get popular posts
       setPosts(data.slice(0, 6)); // Get only first 6 posts for homepage
       setLoading(false);
     } catch {
@@ -51,7 +51,7 @@ const Home = () => {
           </section>
 
           <section className="container mx-auto py-12 px-4 lg:px-8">
-            <h2 className="text-3xl font-bold mb-8 text-center text-white">Postingan Terbaru</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center text-white">Postingan Terpopuler</h2>
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>

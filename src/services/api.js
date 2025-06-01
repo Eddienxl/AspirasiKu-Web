@@ -50,7 +50,7 @@ export const register = async (nim, nama, email, kata_sandi, peran = 'pengguna',
     body: JSON.stringify({ nim, nama, email, kata_sandi, peran, kodeRahasia }),
   });
 
-export const getAllPosts = async (filter = 'semua', sort = 'terbaru') =>
+export const getAllPosts = async (filter = 'semua', sort = 'populer') =>
   apiFetch(`/api/postingan?filter=${filter}&sort=${sort}`);
 
 export const getPostById = async (id) => apiFetch(`/api/postingan/${id}`);
