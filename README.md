@@ -89,7 +89,6 @@ CORS                      - Cross-Origin Resource Sharing
 ### **Database**
 ```
 PostgreSQL 15.x           - Primary Database
-(MySQL Support Available) - Alternative Database Option
 ```
 
 ---
@@ -159,6 +158,28 @@ npm run dev
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:5000
 - **Admin Panel**: http://localhost:5173/admin (peninjau only)
+
+---
+
+## 🌐 **Deployment**
+
+### **Production Deployment**
+- **Frontend**: [Netlify](https://aspirasiku.netlify.app) (Auto-deploy from GitHub)
+- **Backend**: [Railway](https://backend-platform.up.railway.app) (Auto-deploy from GitHub)
+
+### **Environment Variables for Netlify**
+```bash
+VITE_API_URL=https://backend-platform.up.railway.app
+```
+
+### **Deployment Commands**
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
 
 ---
 
@@ -350,6 +371,7 @@ AspirasiKu-Backend/backend-platform/
 
 ### **Development Team**
 - **Ahmad Fadli Pratama** - Project Manager, Frontend Developer, UI/UX Designer
+- **Wan Muhammad Faaruq** - UI/UX Designer
 - **Wahyu Hidayat** - Backend Developer, Database Architect
 - **Syukri Ihsan** - Backend Developer, Database Architect
 
@@ -395,6 +417,11 @@ This project exists thanks to all the people who contributed:
       <sub>Backend Developer, Database Architect</sub><br>
       <sub>API development, database design</sub>
     </td>
+    <td align="center">
+      <strong>Wan Muhammad Faaruq</strong><br>
+      <sub>UI/UX Designer</sub><br>
+      <sub>User interface design, user experience optimization</sub>
+    </td>
   </tr>
 </table>
 
@@ -403,5 +430,5 @@ This project exists thanks to all the people who contributed:
 <div align="center">
   <p><strong>Made with ❤️ for UIN Suska Riau Students</strong></p>
   <p>© 2024 AspirasiKu Platform. All rights reserved.</p>
-  <p><em>Developed by Ahmad Fadli Pratama, Wahyu Hidayat, and Syukri Ihsan</em></p>
+  <p><em>Developed by Ahmad Fadli Pratama, Wan Muhammad Faaruq, Wahyu Hidayat, and Syukri Ihsan</em></p>
 </div>

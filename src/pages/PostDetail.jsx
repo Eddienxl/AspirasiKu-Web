@@ -171,13 +171,14 @@ const PostDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8">
-          <div className="max-w-4xl mx-auto">
-            {/* Post Content */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-soft border border-primary-100 mb-8 animate-fade-in">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Post Content */}
+              <div className="card-glass p-6 sm:p-8 rounded-2xl mb-8 animate-fade-in">
               {/* Header */}
               <div className="mb-6">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 leading-tight">{post.judul}</h1>
@@ -197,9 +198,18 @@ const PostDetail = () => {
                     </span>
                   </div>
                   <div>
-                    <p className="font-medium text-gray-800">
-                      {post.anonim ? 'Anonim' : (post.penulis?.nama || 'Unknown')}
-                    </p>
+                    <div className="flex items-center space-x-2">
+                      <p className="font-medium text-gray-800">
+                        {post.anonim ? 'Anonim' : (post.penulis?.nama || 'Unknown')}
+                      </p>
+                      {/* Peninjau Badge */}
+                      {!post.anonim && post.penulis?.peran === 'peninjau' && (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 shadow-sm">
+                          <span className="mr-1">🛡️</span>
+                          <span>Peninjau</span>
+                        </span>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-500">
                       {new Date(post.dibuat_pada).toLocaleString('id-ID', {
                         year: 'numeric',
@@ -245,7 +255,7 @@ const PostDetail = () => {
             </div>
 
             {/* Comments Section */}
-            <div className="bg-white rounded-2xl shadow-soft border border-primary-100 p-6 sm:p-8">
+            <div className="card-glass rounded-2xl p-6 sm:p-8">
               <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                 <FaUser className="mr-3 text-primary-600" />
                 Komentar
@@ -287,9 +297,18 @@ const PostDetail = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-2">
-                            <p className="font-medium text-gray-800">
-                              {comment.anonim ? 'Anonim' : (comment.penulis?.nama || `User ${comment.id_penulis}`)}
-                            </p>
+                            <div className="flex items-center space-x-2">
+                              <p className="font-medium text-gray-800">
+                                {comment.anonim ? 'Anonim' : (comment.penulis?.nama || `User ${comment.id_penulis}`)}
+                              </p>
+                              {/* Peninjau Badge for Comments */}
+                              {!comment.anonim && comment.penulis?.peran === 'peninjau' && (
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 shadow-sm">
+                                  <span className="mr-1">🛡️</span>
+                                  <span>Peninjau</span>
+                                </span>
+                              )}
+                            </div>
                             <p className="text-xs text-gray-500">
                               {new Date(comment.dibuat_pada).toLocaleString('id-ID', {
                                 year: 'numeric',
@@ -319,6 +338,7 @@ const PostDetail = () => {
         onSubmit={handleReportSubmit}
         type="post"
       />
+      </div>
     </div>
   );
 };

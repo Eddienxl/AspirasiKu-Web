@@ -1,5 +1,79 @@
 @import "tailwindcss";
 
+/* Background Image Styles */
+.bg-campus {
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.bg-campus-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.4) 0%,
+    rgba(16, 185, 129, 0.35) 25%,
+    rgba(5, 150, 105, 0.3) 50%,
+    rgba(6, 120, 95, 0.35) 75%,
+    rgba(34, 197, 94, 0.4) 100%
+  );
+}
+
+/* Card and Container Styles with Enhanced Green Theme */
+.card-glass {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(240, 253, 244, 0.95) 100%);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  box-shadow:
+    0 8px 32px rgba(34, 197, 94, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(240, 253, 244, 0.95) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  box-shadow:
+    0 12px 40px rgba(34, 197, 94, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+.card-glass-dark {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(236, 253, 245, 0.94) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  box-shadow:
+    0 16px 48px rgba(34, 197, 94, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(34, 197, 94, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card-glass-dark:hover {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(236, 253, 245, 0.93) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  box-shadow:
+    0 20px 56px rgba(34, 197, 94, 0.18),
+    0 12px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(34, 197, 94, 0.15);
+  transform: translateY(-3px);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -8,3 +82,4 @@
 .animate-fadeIn {
   animation: fadeIn 0.5s ease-in-out;
 }
+

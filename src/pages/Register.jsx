@@ -40,12 +40,25 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-green-200 transform transition-all duration-500 animate-fade-in">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-white text-2xl font-bold">A</span>
-          </div>
+    <div className="min-h-screen bg-campus relative">
+      <div className="bg-campus-overlay absolute inset-0"></div>
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-md w-full card-glass-dark p-8 rounded-2xl transform transition-all duration-500 animate-fade-in">
+          <div className="text-center mb-8">
+            <div className="w-24 h-20 flex items-center justify-center mx-auto mb-4">
+              <img
+                src="/aspirasikulogo.png"
+                alt="AspirasiKu Logo"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center shadow-lg border border-green-200 hidden">
+                <span className="text-green-600 font-bold text-2xl">A</span>
+              </div>
+            </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Daftar ke AspirasiKu</h1>
           <p className="text-gray-600">Buat akun baru untuk bergabung</p>
         </div>
@@ -126,6 +139,7 @@ const Register = () => {
             Sudah punya akun? <Link to="/login" className="text-green-600 hover:text-green-700 font-medium hover:underline">Masuk</Link>
           </p>
         </div>
+      </div>
     </div>
   );
 };

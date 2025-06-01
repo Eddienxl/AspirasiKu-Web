@@ -40,11 +40,12 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
-          <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-primary-200 animate-fade-in">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
+            <div className="max-w-md w-full card-glass-dark p-8 rounded-2xl animate-fade-in">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <FaLock className="text-white text-2xl" />
@@ -97,8 +98,9 @@ const ChangePassword = () => {
                 {loading ? 'Mengubah...' : 'Ubah Password'}
               </button>
             </form>
-          </div>
-        </main>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { getToken, removeToken } from '../utils/auth';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://backend-platform.up.railway.app';
 
 const apiFetch = async (url, options = {}) => {
   const token = getToken();
@@ -28,7 +28,7 @@ const apiFetch = async (url, options = {}) => {
       if (errorData.message) {
         errorMessage = errorData.message;
       }
-    } catch (e) {
+    } catch {
       // If can't parse JSON, use default message
     }
 
@@ -124,11 +124,22 @@ export const getCurrentUserPosts = async () => {
 
 export const getNotifications = async () => apiFetch('/api/notifikasi');
 
-// Reports - Get all interactions and filter for reports
+// Reports - Get all interactions and filter for reports with detailed information
 export const getAllReports = async () => {
-  const allInteractions = await apiFetch('/api/interaksi');
+  const allInteractions = await apiFetch('/api/interaksi', {
+    headers: {
+      'x-admin-request': 'true'
+    }
+  });
   return allInteractions.filter(interaction => interaction.tipe === 'lapor');
 };
+
+// Update report status (ignore, resolve, etc.)
+export const updateReportStatus = async (reportId, status) =>
+  apiFetch(`/api/interaksi/${reportId}/status`, {
+    method: 'PUT',
+    body: JSON.stringify({ status }),
+  });
 
 // Post management
 export const updatePostStatus = async (id, status) =>
@@ -146,6 +157,14 @@ export const updatePost = async (id, postData) =>
   apiFetch(`/api/postingan/${id}`, {
     method: 'PUT',
     body: JSON.stringify(postData),
+  });
+
+// Admin-specific API calls (includes archived posts)
+export const getAllPostsAdmin = async () =>
+  apiFetch('/api/postingan', {
+    headers: {
+      'x-admin-request': 'true'
+    }
   });
 
 // Comment management
@@ -207,4 +226,11 @@ export const uploadProfilePicture = async (profilePictureBase64) =>
   apiFetch('/api/auth/upload-profile-picture', {
     method: 'PUT',
     body: JSON.stringify({ profile_picture: profilePictureBase64 }),
+  });
+
+// Category management
+export const updateCategory = async (categoryId, categoryData) =>
+  apiFetch(`/api/kategori/${categoryId}`, {
+    method: 'PUT',
+    body: JSON.stringify(categoryData),
   });

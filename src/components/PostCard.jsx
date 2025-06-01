@@ -63,9 +63,9 @@ const PostCard = ({ post, onInteraction }) => {
 
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-primary-200 hover:border-primary-300 group animate-fade-in transform hover:-translate-y-2 hover:scale-[1.02] relative overflow-hidden">
+    <div className="card-glass p-6 rounded-2xl hover:shadow-2xl transition-all duration-500 hover:border-primary-300 group animate-fade-in transform hover:-translate-y-2 hover:scale-[1.02] relative overflow-hidden">
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/30 to-emerald-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
       {/* Content */}
       <div className="relative z-10">
@@ -94,9 +94,18 @@ const PostCard = ({ post, onInteraction }) => {
           <Avatar user={post?.penulis} size="sm" className="ring-2 ring-white" />
         )}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-700 truncate">
-            {post?.anonim ? 'Anonim' : (post?.penulis?.nama || 'Unknown')}
-          </p>
+          <div className="flex items-center space-x-2">
+            <p className="text-sm font-medium text-gray-700 truncate">
+              {post?.anonim ? 'Anonim' : (post?.penulis?.nama || 'Unknown')}
+            </p>
+            {/* Peninjau Badge */}
+            {!post?.anonim && post?.penulis?.peran === 'peninjau' && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200 shadow-sm">
+                <span className="mr-1">🛡️</span>
+                <span>Peninjau</span>
+              </span>
+            )}
+          </div>
           <p className="text-xs text-gray-500">
             {new Date(post?.dibuat_pada).toLocaleString('id-ID', {
               year: 'numeric',

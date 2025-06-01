@@ -55,9 +55,10 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-        <Sidebar />
-        <div className="flex-1 transition-all duration-300 lg:ml-72">
+      <div className="min-h-screen bg-campus flex">
+        <div className="bg-campus-overlay min-h-screen w-full flex">
+          <Sidebar />
+          <div className="flex-1 transition-all duration-300 lg:ml-72">
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full mb-4">
@@ -66,6 +67,7 @@ const Profile = () => {
               <p className="text-gray-600 font-medium">Memuat profil...</p>
             </div>
           </div>
+          </div>
         </div>
       </div>
     );
@@ -73,14 +75,16 @@ const Profile = () => {
 
   if (error || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-        <Sidebar />
-        <div className="flex-1 transition-all duration-300 lg:ml-72">
+      <div className="min-h-screen bg-campus flex">
+        <div className="bg-campus-overlay min-h-screen w-full flex">
+          <Sidebar />
+          <div className="flex-1 transition-all duration-300 lg:ml-72">
           <div className="flex items-center justify-center min-h-screen">
             <div className="bg-red-50 border border-red-200 rounded-2xl p-8 max-w-md mx-auto text-center">
               <div className="text-red-500 text-4xl mb-4">⚠️</div>
               <p className="text-red-600 font-medium">{error || 'Pengguna tidak ditemukan'}</p>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -88,13 +92,14 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8">
           <div className="max-w-6xl mx-auto">
             {/* Profile Header */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg mb-8 border border-primary-200">
+            <div className="card-glass-dark p-6 sm:p-8 rounded-2xl mb-8">
               <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
                 <div className="w-24 h-24 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-3xl font-bold">
                   {user?.nama?.[0] || 'U'}
@@ -126,7 +131,7 @@ const Profile = () => {
             </div>
 
             {/* Posts Section */}
-            <div className="bg-white rounded-2xl shadow-lg border border-primary-200 p-6 sm:p-8">
+            <div className="card-glass rounded-2xl p-6 sm:p-8">
               <h2 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                 <div className="w-8 h-8 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center mr-3">
                   <span className="text-white text-sm">📝</span>
@@ -154,6 +159,7 @@ const Profile = () => {
             </div>
           </div>
         </main>
+        </div>
       </div>
     </div>
   );

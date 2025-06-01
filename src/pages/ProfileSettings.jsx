@@ -130,18 +130,19 @@ const ProfileSettings = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
+            <div className="card-glass rounded-2xl p-6 mb-8">
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Pengaturan Profil</h1>
               <p className="text-gray-600">Kelola informasi akun dan keamanan Anda</p>
             </div>
 
             {/* Tab Navigation */}
-            <div className="bg-white rounded-2xl shadow-lg border border-primary-200 mb-6">
+            <div className="card-glass-dark rounded-2xl mb-6">
               <div className="border-b border-primary-200">
                 <nav className="flex flex-wrap gap-2 p-4">
                   <button
@@ -366,6 +367,7 @@ const ProfileSettings = () => {
             )}
           </div>
         </main>
+        </div>
       </div>
     </div>
   );

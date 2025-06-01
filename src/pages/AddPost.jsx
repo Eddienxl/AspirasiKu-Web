@@ -8,7 +8,6 @@ const AddPost = () => {
   const [judul, setJudul] = useState('');
   const [konten, setKonten] = useState('');
   const [id_kategori, setIdKategori] = useState('');
-  const [tipe, setTipe] = useState('aspirasi');
   const [anonim, setAnonim] = useState(false);
   // Kategori yang sudah ditentukan dengan emoticon (10 kategori standar)
   const categories = [
@@ -36,7 +35,6 @@ const AddPost = () => {
         judul,
         konten,
         id_kategori: parseInt(id_kategori),
-        tipe,
         anonim
       };
 
@@ -52,11 +50,12 @@ const AddPost = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
-          <div className="max-w-lg w-full bg-white p-8 rounded-2xl shadow-large border border-primary-100 animate-fade-in">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-screen">
+            <div className="max-w-lg w-full card-glass-dark p-8 rounded-2xl animate-fade-in">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl font-bold">✍️</span>
@@ -93,17 +92,6 @@ const AddPost = () => {
               </select>
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 mb-2 font-medium">Tipe</label>
-              <select
-                value={tipe}
-                onChange={(e) => setTipe(e.target.value)}
-                className="w-full p-4 border border-primary-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-gradient-to-r from-white to-primary-50"
-              >
-                <option value="aspirasi">💡 Aspirasi</option>
-                <option value="pertanyaan">❓ Pertanyaan</option>
-              </select>
-            </div>
-            <div className="mb-6">
               <label className="block text-gray-700 mb-2 font-medium">Konten</label>
               <textarea
                 value={konten}
@@ -135,6 +123,7 @@ const AddPost = () => {
           </form>
           </div>
         </main>
+        </div>
       </div>
     </div>
   );

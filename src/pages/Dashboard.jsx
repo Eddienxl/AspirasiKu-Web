@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PostCard from '../components/PostCard.jsx';
 import Sidebar from '../components/Sidebar.jsx';
 import { getAllPosts } from '../services/api';
@@ -25,35 +25,36 @@ const Dashboard = () => {
     { value: 'saran-inovasi', label: '💡 Saran dan Inovasi', icon: '💡' }
   ];
 
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getAllPosts(selectedCategory, sort);
       setPosts(data);
       setLoading(false);
-    } catch (err) {
+    } catch {
       setError('Failed to load posts');
       setLoading(false);
     }
-  };
+  }, [selectedCategory, sort]);
 
   useEffect(() => {
     fetchPosts();
-  }, [sort, selectedCategory]);
+  }, [sort, selectedCategory, fetchPosts]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-8 card-glass rounded-2xl p-6">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">Dashboard Aspirasi</h1>
             <p className="text-gray-600">Jelajahi dan berikan suara untuk aspirasi terbaru</p>
           </div>
 
           {/* Filter Section */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-primary-200">
+          <div className="card-glass p-6 rounded-2xl mb-8">
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-6">
               {/* Category Filter */}
               <div className="flex-1">
@@ -209,6 +210,7 @@ const Dashboard = () => {
             </div>
           )}
         </main>
+        </div>
       </div>
     </div>
   );

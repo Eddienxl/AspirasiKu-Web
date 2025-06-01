@@ -52,12 +52,14 @@ const Notifications = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-emerald-50 flex">
-      <Sidebar />
-      <div className="flex-1 transition-all duration-300 lg:ml-72">
-        <main className="p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-campus flex">
+      <div className="bg-campus-overlay min-h-screen w-full flex">
+        <Sidebar />
+        <div className="flex-1 transition-all duration-300 lg:ml-72">
+          <main className="p-4 sm:p-6 lg:p-8">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <div className="card-glass rounded-2xl p-6 mb-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-emerald-500 rounded-full flex items-center justify-center">
                 <FaBell className="text-white text-xl" />
@@ -76,6 +78,7 @@ const Notifications = () => {
                 <span>Tandai Semua Dibaca</span>
               </button>
             )}
+            </div>
           </div>
           {/* Content */}
           {loading ? (
@@ -105,10 +108,8 @@ const Notifications = () => {
               {notifications.map(notif => (
                 <div
                   key={notif?.id}
-                  className={`p-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl ${
-                    notif?.dibaca
-                      ? 'bg-white border border-gray-200'
-                      : 'bg-gradient-to-r from-primary-50 to-emerald-50 border border-primary-200'
+                  className={`card-glass p-6 rounded-2xl transition-all duration-300 ${
+                    !notif?.dibaca ? 'ring-2 ring-primary-200' : ''
                   }`}
                 >
                   <div className="flex justify-between items-start gap-4">
@@ -152,6 +153,7 @@ const Notifications = () => {
             </div>
           )}
         </main>
+        </div>
       </div>
     </div>
   );
