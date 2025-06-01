@@ -93,74 +93,6 @@ PostgreSQL 15.x           - Primary Database
 
 ---
 
-## 🚀 **Installation & Setup**
-
-### **Prerequisites**
-- Node.js 18.x or higher
-- PostgreSQL 15.x or MySQL 8.x
-- Git
-- npm or yarn package manager
-
-### **1. Clone Repository**
-```bash
-git clone https://github.com/yourusername/aspirasiku.git
-cd aspirasiku
-```
-
-### **2. Backend Setup**
-```bash
-# Navigate to backend directory
-cd AspirasiKu-Backend/backend-platform
-
-# Install dependencies
-npm install
-
-# Create environment file
-cp .env.example .env
-
-# Configure database connection in .env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=aspirasiku_db
-DB_USER=your_username
-DB_PASS=your_password
-JWT_SECRET=your_jwt_secret_key
-
-# Run database migrations
-npx sequelize-cli db:migrate
-
-# Seed initial data (optional)
-npx sequelize-cli db:seed:all
-
-# Start backend server
-npm start
-```
-
-### **3. Frontend Setup**
-```bash
-# Navigate to frontend directory
-cd ../../AspirasiKu
-
-# Install dependencies
-npm install
-
-# Create environment file
-cp .env.example .env
-
-# Configure API endpoint
-VITE_API_URL=http://localhost:5000
-
-# Start frontend development server
-npm run dev
-```
-
-### **4. Access Application**
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5000
-- **Admin Panel**: http://localhost:5173/admin (peninjau only)
-
----
-
 ## 🌐 **Deployment**
 
 ### **Production Deployment**
@@ -209,12 +141,6 @@ npm run preview
 ✅ Manage post categories
 ✅ Monitor user activities
 ```
-
-### **Creating Peninjau Account**
-1. Register with role "Peninjau"
-2. Enter secret code: `peninjau`
-3. Login with created credentials
-4. Access admin panel automatically
 
 ---
 
@@ -319,67 +245,6 @@ AspirasiKu-Backend/backend-platform/
 ├── server.js               # Server entry point
 └── package.json            # Dependencies and scripts
 ```
-
----
-
-## 🤝 **Contributing Guidelines**
-
-### **Development Workflow**
-1. **Fork the repository**
-2. **Create feature branch**: `git checkout -b feature/amazing-feature`
-3. **Make changes** and test thoroughly
-4. **Commit changes**: `git commit -m 'Add amazing feature'`
-5. **Push to branch**: `git push origin feature/amazing-feature`
-6. **Open Pull Request** with detailed description
-
-### **Code Standards**
-- **Frontend**: Follow React best practices and ESLint rules
-- **Backend**: Use consistent naming conventions and error handling
-- **Database**: Follow Sequelize ORM patterns
-- **Styling**: Use Tailwind CSS utility classes consistently
-- **Comments**: Add JSDoc comments for complex functions
-
-### **Testing Requirements**
-- Test all new features before submitting PR
-- Ensure responsive design works on mobile/tablet/desktop
-- Verify authentication and authorization flows
-- Test API endpoints with proper error handling
-
----
-
-## 📸 **Screenshots**
-
-### **Main Dashboard**
-![Dashboard](screenshots/dashboard.png)
-*Main dashboard with post filtering and category navigation*
-
-### **Post Creation**
-![Add Post](screenshots/add-post.png)
-*Create new post with category selection and content editor*
-
-### **Admin Panel**
-![Admin Panel](screenshots/admin-panel.png)
-*Admin panel for content moderation and user management*
-
-### **Mobile Responsive**
-![Mobile View](screenshots/mobile-view.png)
-*Responsive design optimized for mobile devices*
-
----
-
-## 📞 **Contact Information**
-
-### **Development Team**
-- **Ahmad Fadli Pratama** - Project Manager, Frontend Developer, UI/UX Designer
-- **Wan Muhammad Faaruq** - UI/UX Designer
-- **Wahyu Hidayat** - Backend Developer, Database Architect
-- **Syukri Ihsan** - Backend Developer, Database Architect
-
-### **Project Support**
-- **Issues**: Report bugs via GitHub Issues
-- **Feature Requests**: Submit via GitHub Discussions
-- **Documentation**: Check PENINJAU_ROLE_DOCUMENTATION.md for admin guide
-- **University Contact**: [university.contact@uinsuska.ac.id]
 
 ---
 
