@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sort, setSort] = useState('populer');
+  const [sort, setSort] = useState('terbaru');
   const [selectedCategory, setSelectedCategory] = useState('semua');
 
   const categories = [
