@@ -35,7 +35,7 @@ Role **Peninjau** adalah role administratif dalam sistem AspirasiKu yang memberi
 1. **Buka halaman registrasi**: `/register`
 2. **Isi data lengkap**: NIM, Username, Email, Password
 3. **Pilih role**: "👨‍💼 Peninjau" dari dropdown
-4. **Masukkan kode rahasia**: `"tanya developer yaa"` (tanpa petik)
+4. **Masukkan kode rahasia**: tanya developer yaa
 5. **Submit form**: Akan redirect ke login jika berhasil
 
 ### **Login sebagai Peninjau:**
