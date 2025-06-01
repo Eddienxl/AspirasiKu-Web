@@ -186,80 +186,11 @@ GET /api/kategori           - Get all categories
 
 ---
 
-## 📁 **Project Structure**
-
-### **Frontend Structure**
-```
-AspirasiKu/
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # Reusable UI components
-│   │   ├── Sidebar.jsx     # Navigation sidebar
-│   │   ├── PostCard.jsx    # Post display component
-│   │   ├── CommentCard.jsx # Comment display component
-│   │   └── PasswordInput.jsx # Password input with toggle
-│   ├── pages/              # Page components
-│   │   ├── Login.jsx       # Login page
-│   │   ├── Register.jsx    # Registration page
-│   │   ├── Dashboard.jsx   # Main dashboard
-│   │   ├── AddPost.jsx     # Create post page
-│   │   ├── PostDetail.jsx  # Post detail view
-│   │   ├── Profile.jsx     # User profile page
-│   │   ├── ProfileSettings.jsx # Profile settings
-│   │   └── AdminPanel.jsx  # Admin panel (peninjau only)
-│   ├── services/           # API service functions
-│   │   └── api.js          # API calls and HTTP client
-│   ├── utils/              # Utility functions
-│   │   └── auth.js         # Authentication helpers
-│   ├── App.jsx             # Main app component
-│   └── main.jsx            # App entry point
-├── tailwind.config.js      # Tailwind CSS configuration
-└── package.json            # Dependencies and scripts
-```
-
-### **Backend Structure**
-```
-AspirasiKu-Backend/backend-platform/
-├── config/                 # Configuration files
-│   └── database.js         # Database configuration
-├── controllers/            # Request handlers
-│   ├── authController.js   # Authentication logic
-│   ├── postinganController.js # Post management
-│   ├── komentarController.js  # Comment management
-│   └── interaksiController.js # Interaction handling
-├── middleware/             # Custom middleware
-│   ├── authentikasi.js     # JWT authentication
-│   └── authorisasi.js      # Role-based authorization
-├── models/                 # Database models
-│   ├── Pengguna.js         # User model
-│   ├── Postingan.js        # Post model
-│   ├── Komentar.js         # Comment model
-│   ├── Kategori.js         # Category model
-│   └── Interaksi.js        # Interaction model
-├── routes/                 # API routes
-│   ├── authRoutes.js       # Authentication routes
-│   ├── postinganRoutes.js  # Post routes
-│   ├── komentarRoutes.js   # Comment routes
-│   └── interaksiRoutes.js  # Interaction routes
-├── utils/                  # Utility functions
-├── server.js               # Server entry point
-└── package.json            # Dependencies and scripts
-```
-
----
-
 ## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-## 🙏 **Acknowledgments**
-
-- **UIN Suska Riau** - For providing the platform requirements and support
-- **React Community** - For the excellent documentation and ecosystem
-- **Tailwind CSS** - For the utility-first CSS framework
-- **Node.js Community** - For the robust backend ecosystem
 
 ## 👨‍💻 **Contributors**
 
