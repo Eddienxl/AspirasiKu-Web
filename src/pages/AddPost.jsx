@@ -110,7 +110,7 @@ const AddPost = () => {
                   onChange={(e) => setAnonim(e.target.checked)}
                   className="mr-3 h-5 w-5 text-primary-500 focus:ring-primary-500 rounded"
                 />
-                <span className="text-gray-700 font-medium">🕶️ Posting sebagai anonim</span>
+                <span className="text-gray-700 font-medium">Posting sebagai Anonim🕶️</span>
               </label>
             </div>
             <button
